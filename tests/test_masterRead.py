@@ -17,7 +17,7 @@ def invoke_lambda_function():
     
 # テスト
 @pytest.mark.parametrize("expected", [
-    ({'statusCode': 200, "body": test_const.master}),
+    ({'statusCode': 200, "body": test_const.MASTERREAD_EXPECTED_POSITIVE}),
  
 ])
 def test_lambda_function(expected):
