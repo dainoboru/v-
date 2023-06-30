@@ -6,4 +6,6 @@
 ## 自動テストの実行方法方法
 - python ver 3.7
 - python -m pytest testsの階層で
-- 
+- pip install pytest
+- AWSのライブラリ
+- pip install boto3
