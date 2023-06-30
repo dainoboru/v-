@@ -8,7 +8,7 @@
 - pip install pytest
 - pip install boto3（AWSのライブラリ）
   
-## 自動テストの実行方法方法
+## 自動テストの実行方法
 - python ver 3.7
 - testsの階層で　'python -m pytest' コマンドを打つ
   
