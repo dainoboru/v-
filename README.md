@@ -10,6 +10,10 @@
   
 ## 自動テストの実行方法
 - python ver 3.7
+- python -m pytest testsの階層で
+- pip install pytest
+- AWSのライブラリ
+- pip install boto3
 - testsの階層で　'python -m pytest' コマンドを打つ
   
 ## 自動テストの作成方法
@@ -17,4 +21,4 @@
 - 事前処理事後処理の部分で、invokeSQLFunctionをつかってテスト用のテーブルを作成・データの挿入
 - 他のテストファイルを参考にテストの作成
 
-  
+
