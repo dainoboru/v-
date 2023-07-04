@@ -30,7 +30,7 @@ def searchLogic(SQL):
 
 
 # 複数検索　ex: keys = ["AWS","Lambda"] 
-def searchMulti(keys):
-    sql=const.SQL_FIRST+searchCondition(keys)+const.SQL_SECOND
+def searchMulti(keys,environment):
+    sql=const.SQL_FIRST_func(environment)+searchCondition(keys)+const.SQL_SECOND_func(environment)
     print(sql)
     return searchLogic(sql)

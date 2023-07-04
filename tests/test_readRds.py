@@ -1,6 +1,31 @@
 import pytest
 import boto3
 import json
+import test_const
+import time
+
+# Lambda関数の名前とリージョン　ハードコード非推奨かもTODO
+REGION_NAME = 'ap-northeast-1'
+# Lambda関数を呼び出すヘルパー関数
+def invoke_lambda_function_setup(payload):
+    client = boto3.client('lambda', region_name=REGION_NAME)
+    response = client.invoke(
+        FunctionName='invokeSQLFunction',
+        Payload=json.dumps({"body":payload}).encode('utf-8')
+    )
+    return json.loads(response['Payload'].read().decode('utf-8'))
+    
+def setup_module(module):
+    print("\n*** setup_module ***")
+    print(invoke_lambda_function_setup(test_const.READRDS_SETUP.split(";")))
+    print("\n*** setup_module ***")
+    
+
+def teardown_module(moduloe):
+    print("\n*** teardown_module ***")
+    print(invoke_lambda_function_setup(test_const.READRDS_TEARDOWN.split(";")))
+    print("\n*** teardown_module ***")
+    
 
 # Lambda関数の名前とリージョン　ハードコード非推奨かもTODO
 FUNCTION_NAME = 'readRds'
@@ -10,18 +35,19 @@ def invoke_lambda_function(payload):
     client = boto3.client('lambda', region_name=REGION_NAME)
     response = client.invoke(
         FunctionName=FUNCTION_NAME,
-        Payload=json.dumps({"body":json.dumps(payload)}).encode('utf-8')
+        Payload=json.dumps({"body":json.dumps(payload),"Environment":"test"}).encode('utf-8')
     )
     return json.loads(response['Payload'].read().decode('utf-8'))
     
-# 全検索　全部検索したことを確認するのが困難なため、ある程度以上のコンテンツを検索出来ればよいものとしている。
+# 全検索　
 @pytest.mark.parametrize("input_data, expected", [
-    ({'key': []}, {'len':60,'statusCode': 200})
+    ({'key': []}, {'len':11,'statusCode': 200})
 ])
 def test_lambda_function(input_data, expected):
     response_payload = invoke_lambda_function(input_data)
+    # print(response_payload)
     assert response_payload['statusCode'] == expected['statusCode']  
-    assert len(json.loads(response_payload['body'])) >= expected['len']
+    assert len(json.loads(response_payload['body'])) == expected['len']
 
 
 # 正常系のテスト
