@@ -28,5 +28,7 @@ jobs:
 
       - name: Run flake8
         run: |
+          pip install autopep8
+          autopep8 -i
           pip install flake8
           flake8
